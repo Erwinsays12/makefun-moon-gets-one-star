@@ -8,5 +8,13 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const REVIEW =
   "★☆☆☆☆ Follows me home every night, then vanishes for a week without texting back. Clingy AND ghosting. Pick one.";
 
+// The gate allows 1–120 characters; refuse to write an entry that breaks it
+// instead of silently submitting an invalid one.
+if ([...REVIEW].length < 1 || [...REVIEW].length > 120) {
+  throw new Error(
+    `review is ${[...REVIEW].length} characters, must be 1-120`,
+  );
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", REVIEW, "utf8");
